@@ -8,6 +8,12 @@
   },
   "author": "Michael Jonker",
   "license": "UNLICENSED",
+  "dependencies": {
+    "@social/social-deployment": "git+https://git@github.com/citkane/social-deployment.git",
+    "fs-extra": "^8.0.1",
+    "uniqid": "^5.0.3",
+    "zmq": "^2.15.3"
+  },
   "devDependencies": {
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
