@@ -64,7 +64,7 @@ class Api extends BaseApi {
     }
 
     async getUserByName(userName, ownerId = null) {
-        const user = this.userByName(userName);
+        const user = await this.userByName(userName);
         if (user) return Promise.resolve(user);
         return Promise.reject({ status: 404, message: 'Could not find user' });
     }

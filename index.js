@@ -17,6 +17,9 @@ const apiInterface = {
             .then(payload => ({ status: 200, payload })),
 
         user: request => api.getUserById(request.args[0], request.ownerId)
+            .then(payload => ({ status: 200, payload })),
+
+        userByName: request => api.getUserByName(request.args[0], request.ownerId)
             .then(payload => ({ status: 200, payload }))
     },
     update: {
