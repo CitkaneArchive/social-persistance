@@ -32,7 +32,7 @@ class Api extends BaseApi {
         const { users } = cache;
         if (!userName) return Promise.reject({ status: 403, message: 'Username is required' });
         try {
-            const duplicateUserName = await this.userByName(userName);
+            const duplicateUserName = this.userByName(userName);
             if (!duplicateUserName) {
                 users[user.uid] = user;
                 await save(userStore, users);
@@ -48,7 +48,7 @@ class Api extends BaseApi {
 
     getAllUsers(ownerId = null) {
         const { users } = cache;
-        return Promise.resolve(Object.keys(users).map(id => users[id]));
+        return Promise.resolve(users);
     }
 
     getUserById(uid, ownerId = null) {
@@ -57,14 +57,15 @@ class Api extends BaseApi {
         return Promise.reject({ status: 404, message: 'Could not find user' });
     }
 
-    async userByName(userName) {
-        const users = await this.getAllUsers();
-        const user = users.find(u => u.userName === userName);
-        return user;
+    userByName(userName) {
+        const { users } = cache;
+        const user = Object.keys(users).find(uid => users[uid].userName === userName);
+        if (!user) return false;
+        return users[user];
     }
 
     async getUserByName(userName, ownerId = null) {
-        const user = await this.userByName(userName);
+        const user = this.userByName(userName);
         if (user) return Promise.resolve(user);
         return Promise.reject({ status: 404, message: 'Could not find user' });
     }
@@ -75,7 +76,7 @@ class Api extends BaseApi {
         if (!userName) return Promise.reject({ status: 403, message: 'Username is required' });
         if (!users[uid]) return Promise.reject({ status: 404, message: 'Could not find user' });
         try {
-            const duplicateUserName = await this.userByName(userName);
+            const duplicateUserName = this.userByName(userName);
             if (!duplicateUserName || duplicateUserName.uid === uid) {
                 Object.keys(user).forEach((key) => {
                     users[uid][key] = user[key];
@@ -91,7 +92,6 @@ class Api extends BaseApi {
     }
 
     async deleteUser(user, ownerId = null) {
-        console.log(user);
         const { uid } = user;
         const { users } = cache;
         delete users[uid];
