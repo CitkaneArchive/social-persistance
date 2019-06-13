@@ -14,7 +14,16 @@ const cache = {};
 
 fs.ensureDirSync(storePath);
 fs.ensureDirSync(userStorePath);
-if (!fs.existsSync(userStore)) fs.writeJsonSync(userStore, {}, { spaces: 4 });
+if (!fs.existsSync(userStore)) {
+    fs.writeJsonSync(userStore, {
+        '83denmejwpcycse': {
+            userName: 'admin',
+            realName: 'Admin User',
+            about: 'The initial admin user',
+            uid: '83denmejwpcycse'
+        }
+    }, { spaces: 4 });
+}
 cache.users = fs.readJsonSync(userStore);
 
 function save(location, payload) {
