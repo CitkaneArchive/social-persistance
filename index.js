@@ -1,6 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable prefer-promise-reject-errors */
-// eslint-disable-next-line no-underscore-dangle
+
+const config = require('config');
+
+global.__network = config.get('network');
 global.__rootDir = __dirname;
+
 const Sockets = require('../social-deployment/templates/nodejs/api/Sockets');
 const Api = require('./src/api/Api');
 
