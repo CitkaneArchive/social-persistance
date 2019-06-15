@@ -7,33 +7,30 @@ global.__network = config.get('network');
 global.__rootDir = __dirname;
 
 const Sockets = require('../social-deployment/templates/nodejs/api/Sockets');
-const Api = require('./src/api/Api');
 
 const sockets = new Sockets('persistance');
-const api = new Api(sockets);
+const ApiUsers = require('./src/api/ApiUsers');
+const ApiActivities = require('./src/api/ApiActivities');
+
+
+const userApi = new ApiUsers(sockets);
+const activityApi = new ApiActivities(sockets);
 
 const apiInterface = {
     create: {
-        user: request => api.saveUser(request.args[0], request.ownerId)
-            .then(payload => ({ status: 201, payload }))
+        user: request => userApi.saveUser(request.args[0], request.ownerId),
+        activity: request => activityApi.saveActivity(request.args[0], request.ownerId)
     },
     read: {
-        users: request => api.getAllUsers(request.ownerId)
-            .then(payload => ({ status: 200, payload })),
-
-        user: request => api.getUserById(request.args[0], request.ownerId)
-            .then(payload => ({ status: 200, payload })),
-
-        userByName: request => api.getUserByName(request.args[0], request.ownerId)
-            .then(payload => ({ status: 200, payload }))
+        users: request => userApi.getAllUsers(request.ownerId),
+        user: request => userApi.getUserById(request.args[0], request.ownerId),
+        userByName: request => userApi.getUserByName(request.args[0], request.ownerId)
     },
     update: {
-        user: request => api.updateUser(request.args[0], request.ownerId)
-            .then(payload => ({ status: 200, payload }))
+        user: request => userApi.updateUser(request.args[0], request.ownerId)
     },
     delete: {
-        user: request => api.deleteUser(request.args[0], request.ownerId)
-            .then(payload => ({ status: 200, payload }))
+        user: request => userApi.deleteUser(request.args[0], request.ownerId)
     }
 };
 
