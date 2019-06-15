@@ -2,8 +2,9 @@
   "name": "social-persistance",
   "version": "0.0.0",
   "description": "Social microservice providing persistant storage",
-  "main": "index.js",
+  "main": "./src/persistance.js",
   "scripts": {
+    "start": "node ./src/persistance.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Michael Jonker",

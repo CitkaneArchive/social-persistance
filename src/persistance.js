@@ -2,15 +2,16 @@
 /* eslint-disable prefer-promise-reject-errors */
 
 const config = require('config');
+const path = require('path');
 
 global.__network = config.get('network');
-global.__rootDir = __dirname;
+global.__rootDir = path.join(__dirname, '../');
 
-const Sockets = require('../social-deployment/templates/nodejs/api/Sockets');
+const Sockets = require('../../social-deployment/templates/nodejs/api/Sockets');
 
 const sockets = new Sockets('persistance');
-const ApiUsers = require('./src/api/ApiUsers');
-const ApiActivities = require('./src/api/ApiActivities');
+const ApiUsers = require('./api/ApiUsers');
+const ApiActivities = require('./api/ApiActivities');
 
 
 const userApi = new ApiUsers(sockets);
