@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable prefer-promise-reject-errors */
 
 const config = require('config');
 const path = require('path');
