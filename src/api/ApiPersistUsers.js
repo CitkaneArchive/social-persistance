@@ -1,4 +1,4 @@
-/* eslint-disable prefer-promise-reject-errors */
+/* eslint-disable no-unused-vars */
 
 const Api = require('../../../social-deployment/templates/nodejs/api/Api');
 const utils = require('../utils/userUtils');
@@ -12,9 +12,9 @@ const initialPayload = {
     }
 };
 
-class ApiUsers extends Api {
+class ApiPersistUsers extends Api {
     constructor(sockets) {
-        super(sockets, 'users', initialPayload);
+        super(sockets, 'users');
     }
 
     async saveUser(user, ownerId = null) {
@@ -91,4 +91,4 @@ class ApiUsers extends Api {
     }
 }
 
-module.exports = ApiUsers;
+module.exports = ApiPersistUsers;

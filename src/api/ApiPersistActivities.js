@@ -1,8 +1,8 @@
-/* eslint-disable prefer-promise-reject-errors */
+/* eslint-disable no-unused-vars */
 
 const Api = require('../../../social-deployment/templates/nodejs/api/Api');
 
-class ApiActivities extends Api {
+class ApiPersistActivities extends Api {
     constructor(sockets) {
         super(sockets, 'activities');
     }
@@ -19,6 +19,11 @@ class ApiActivities extends Api {
             return this.reject(500, err.message);
         }
     }
+
+    getAllActivities(ownerId = null) {
+        const { activities } = this.cache;
+        return this.resolve(200, activities);
+    }
 }
 
-module.exports = ApiActivities;
+module.exports = ApiPersistActivities;
