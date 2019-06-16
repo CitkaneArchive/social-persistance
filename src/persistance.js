@@ -20,13 +20,18 @@ const apiInterface = {
         user: request => user.getUserById(request.args[0], request.ownerId),
         userByName: request => user.getUserByName(request.args[0], request.ownerId),
 
-        activities: request => activity.getAllActivities(request.ownerId)
+        activities: request => activity.getAllActivities(request.ownerId),
+        activity: request => activity.getActivityById(request.args[0], request.ownerId)
     },
     update: {
-        user: request => user.updateUser(request.args[0], request.ownerId)
+        user: request => user.updateUser(request.args[0], request.ownerId),
+
+        activity: request => activity.updateActivity(request.args[0], request.ownerId)
     },
     delete: {
-        user: request => user.deleteUser(request.args[0], request.ownerId)
+        user: request => user.deleteUser(request.args[0], request.ownerId),
+
+        activity: request => activity.deleteActivity(request.args[0], request.ownerId)
     }
 };
 
