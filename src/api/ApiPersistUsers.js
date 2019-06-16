@@ -8,13 +8,14 @@ const initialPayload = {
         userName: 'admin',
         realName: 'Admin User',
         about: 'The initial admin user',
-        uid: '83denmejwpcycse'
+        uid: '83denmejwpcycse',
+        created: new Date(Date.now()).toISOString()
     }
 };
 
 class ApiPersistUsers extends Api {
     constructor(sockets) {
-        super(sockets, 'users');
+        super(sockets, 'users', initialPayload);
     }
 
     async saveUser(user, ownerId = null) {
