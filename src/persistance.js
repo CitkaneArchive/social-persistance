@@ -9,8 +9,19 @@ const sockets = new Sockets('persistance');
 const user = new ApiUsers(sockets);
 const activity = new ApiActivities(sockets);
 
+/** @module persistance */
 const apiInterface = {
+    /**
+     * @namespace module:persistance.create
+     * */
     create: {
+        /**
+         * Create a new user
+         * @name module:persistance.create.user
+         *
+         * @example <caption>api.persistance.create.user(<userObject, ownerId>)</caption>
+         *
+         * */
         user: request => user.saveUser(request.args[0], request.ownerId),
 
         activity: request => activity.saveActivity(request.args[0], request.ownerId)
