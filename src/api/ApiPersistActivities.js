@@ -1,8 +1,13 @@
 /* eslint-disable no-unused-vars */
 
-const Api = require('../../../social-deployment/templates/nodejs/api/Api');
+const Api = require('../templates/Api');
 
+/** @memberof module:persistance */
 class ApiPersistActivities extends Api {
+    /**
+     * @classdesc Utilities to persist and retrieve activitites
+     * @param {Sockets} sockets -The zmq socket class instance.
+     */
     constructor(sockets) {
         super(sockets, 'activities');
     }

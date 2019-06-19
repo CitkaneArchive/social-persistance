@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-const Api = require('../../../social-deployment/templates/nodejs/api/Api');
+const Api = require('../templates/Api');
 const utils = require('../utils/userUtils');
 
 const initialPayload = {
@@ -13,7 +13,12 @@ const initialPayload = {
     }
 };
 
+/** @memberof module:persistance */
 class ApiPersistUsers extends Api {
+    /**
+     * @classdesc Utilities to persist and retrieve users
+     * @param {sockets} sockets -The zmq socket class instance.
+     */
     constructor(sockets) {
         super(sockets, 'users', initialPayload);
     }
