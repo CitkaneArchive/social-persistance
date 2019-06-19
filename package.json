@@ -1,5 +1,5 @@
 {
-  "name": "social-persistance",
+  "name": "@social/persistance",
   "version": "0.0.0",
   "description": "Social microservice providing persistant storage",
   "main": "./src/persistance.js",
