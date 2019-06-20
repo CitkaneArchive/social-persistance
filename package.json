@@ -5,7 +5,7 @@
   "main": "./src/persistance.js",
   "scripts": {
     "start": "node ./src/persistance.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:provider": "mocha ./tests/provider/**/*.pact.js"
   },
   "author": "Michael Jonker",
   "license": "UNLICENSED",

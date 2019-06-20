@@ -81,3 +81,5 @@ const apiInterface = {
 };
 
 sockets.makeResponder(apiInterface);
+
+module.exports = apiInterface;
