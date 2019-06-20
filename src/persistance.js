@@ -82,4 +82,13 @@ const apiInterface = {
 
 sockets.makeResponder(apiInterface);
 
-module.exports = apiInterface;
+function gracefulShutdown() {
+    console.log('Gracefully shutting down social-users');
+    process.exit();
+}
+module.exports = {
+    user,
+    activity,
+    apiInterface,
+    gracefulShutdown
+};

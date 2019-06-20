@@ -2,6 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
+const config = require('config');
 const BaseApi = require('./BaseApi');
 
 const cache = {};
@@ -14,7 +15,8 @@ class Api extends BaseApi {
     constructor(sockets, type = false, initialPayload = {}) {
         super(sockets);
         if (type) {
-            const storePath = path.join(__rootDir, 'store');
+            let storePath = path.join(__rootDir, 'store');
+            storePath = path.join(storePath, config.get('storage').baseDir);
             fs.ensureDirSync(storePath);
             this.cache = cache;
             this.storePath = storePath;
