@@ -10,15 +10,39 @@
 
 module.exports = {
     /**
+     * @typedef request
+     * @property {String} ownerId - The uid of the entity which made the api call;
+     * @property {String} action - The CRUD action to be called;
+     * @property {String} command - The corresponding command invocation for the CRUD operation;
+     * @property {(String|Object[])} args - The arguments to pass to the command.
+     */
+    request: (ownerId, action, command, args = []) => {
+        let thisArgs = args;
+        if (!Array.isArray(thisArgs)) thisArgs = [thisArgs];
+        return {
+            ownerId,
+            action,
+            command,
+            args: thisArgs
+        };
+    },
+    /**
      * @typedef response
      * @property {Number} status - The response code as to HTTP schema.
-     * @property {String} ownerId - The uid of the entity which made the api call;
      * @property {any} payload - The api response payload.
      */
-    response: (status, payload, ownerId) => ({
+    response: (status, payload) => ({
         status,
-        payload,
-        ownerId
+        payload
+    }),
+    /**
+     * @typedef response-error
+     * @property {Number} status - The response code as to HTTP schema.
+     * @property {any} message - The api response error.
+     */
+    error: (status, message) => ({
+        status,
+        message
     }),
 
     /**
