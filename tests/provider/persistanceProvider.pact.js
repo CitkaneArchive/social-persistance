@@ -13,6 +13,7 @@ const { version } = require('../../package.json');
 
 const LOG_LEVEL = process.env.LOG_LEVEL || 'WARN';
 const pacts = config.get('pacts');
+const pactBrokerUrl = `${pacts.broker}:${pacts.brokerPort}`;
 
 function makePact(messageProviders) {
     return new MessageProviderPact({
@@ -20,10 +21,16 @@ function makePact(messageProviders) {
         logLevel: LOG_LEVEL,
         provider: 'social-persistance',
         providerVersion: version,
-        pactBrokerUrl: `${pacts.broker}:${pacts.brokerPort}`,
+        pactBrokerUrl,
         publishVerificationResult: true
     });
 }
+after(() => {
+    fs.removeSync(user.storePath);
+    fs.removeSync(activity.storePath);
+    setTimeout(() => { gracefulShutdown(); }, 1000);
+});
+
 describe('ENVIRONMENT', () => {
     it('is running in test environment', () => {
         expect(process.env.NODE_ENV).to.equal('test');
@@ -31,14 +38,10 @@ describe('ENVIRONMENT', () => {
 });
 describe('persistance consumer expectations', () => {
     const messageProviders = {};
-    after(() => {
-        fs.removeSync(user.storePath);
-        fs.removeSync(activity.storePath);
-        gracefulShutdown();
-    });
+
 
     describe('add consumer requirement contracts to pact', () => {
-        it('persists a new user', () => {
+        it('create.user', () => {
             messageProviders['persistance.create.user'] = async (message) => {
                 const request = message.providerStates[0].name;
                 try {
@@ -48,7 +51,7 @@ describe('persistance consumer expectations', () => {
                 }
             };
         });
-        it('persists a new activity', () => {
+        it('create.activity', () => {
             messageProviders['persistance.create.activity'] = async (message) => {
                 const request = message.providerStates[0].name;
                 try {
@@ -60,12 +63,6 @@ describe('persistance consumer expectations', () => {
         });
     });
     describe('fulfill all contract requirements', () => {
-        it('verify against broker', async () => {
-            try {
-                return await makePact(messageProviders).verify();
-            } catch (err) {
-                return err;
-            }
-        });
+        it('verify against broker', () => makePact(messageProviders).verify());
     });
 });
