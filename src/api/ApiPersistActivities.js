@@ -5,7 +5,7 @@ const Api = require('../templates/Api');
 /** @memberof module:persistance */
 class ApiPersistActivities extends Api {
     /**
-     * @classdesc Utilities to persist and retrieve activitites
+     * @classdesc methods to persist and retrieve activitites
      * @param {Sockets} sockets -The zmq socket class instance.
      */
     constructor(sockets) {

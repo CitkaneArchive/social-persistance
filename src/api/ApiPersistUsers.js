@@ -93,7 +93,7 @@ class ApiPersistUsers extends Api {
         try {
             await this.save(update);
             this.cache.users = update;
-            return this.resolve(205, this.cache.users[uid]);
+            return this.resolve(205, user);
         } catch (err) {
             console.log(err);
             return this.reject(500, err.message);
