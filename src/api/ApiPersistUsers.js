@@ -3,6 +3,8 @@
 const Api = require('../templates/Api');
 const utils = require('../utils/userUtils');
 
+let api;
+
 const initialPayload = {
     '83denmejwpcycse': {
         userName: 'admin',
@@ -19,8 +21,9 @@ class ApiPersistUsers extends Api {
      * @classdesc Utilities to persist and retrieve users
      * @param {sockets} sockets -The zmq socket class instance.
      */
-    constructor(sockets) {
+    constructor(sockets, baseApi) {
         super(sockets, 'users', initialPayload);
+        api = baseApi;
     }
 
     async saveUser(user, ownerId = null) {
@@ -28,46 +31,46 @@ class ApiPersistUsers extends Api {
         const { users } = this.cache;
         const update = { ...users };
         try {
-            if (!userName) return this.reject(400, 'Username is required');
+            if (!userName) return api.reject(400, 'Username is required');
             const duplicateUserName = utils.getUserByName(users, userName);
             if (!duplicateUserName) {
                 update[user.uid] = user;
                 await this.save(update);
                 this.cache.users = update;
-                return this.resolve(201, this.cache.users[user.uid]);
+                return api.resolve(201, this.cache.users[user.uid]);
             }
             return this.reject(409, 'Username already exists');
         } catch (err) {
             console.log(err);
-            return this.reject(500, err.message);
+            return api.reject(500, err.message);
         }
     }
 
     getAllUsers(ownerId = null) {
         const { users } = this.cache;
-        return this.resolve(200, users);
+        return api.resolve(200, users);
     }
 
     getUserById(uid, ownerId = null) {
         const { users } = this.cache;
-        if (users[uid]) return this.resolve(200, users[uid]);
-        return this.reject(404, 'Could not find user');
+        if (users[uid]) return api.resolve(200, users[uid]);
+        return api.reject(404, 'Could not find user');
     }
 
     async getUserByName(userName, ownerId = null) {
         const { users } = this.cache;
         const user = utils.getUserByName(users, userName);
-        if (user) return this.resolve(200, user);
-        return this.reject(404, 'Could not find user');
+        if (user) return api.resolve(200, user);
+        return api.reject(404, 'Could not find user');
     }
 
     async updateUser(user, ownerId = null) {
         const { uid, userName } = user;
         const { users } = this.cache;
         const update = { ...users };
-        if (!userName) return this.reject(400, 'Username is required');
-        if (!uid) return this.reject(400, 'User uid is required');
-        if (!users[uid]) return this.reject(404, 'Could not find user');
+        if (!userName) return api.reject(400, 'Username is required');
+        if (!uid) return api.reject(400, 'User uid is required');
+        if (!users[uid]) return api.reject(404, 'Could not find user');
         try {
             const duplicateUserName = utils.getUserByName(users, userName);
             if (!duplicateUserName || duplicateUserName.uid === uid) {
@@ -76,12 +79,12 @@ class ApiPersistUsers extends Api {
                 });
                 await this.save(update);
                 this.cache.users = update;
-                return this.resolve(200, this.cache.users[uid]);
+                return api.resolve(200, this.cache.users[uid]);
             }
             return this.reject(403, 'Username already exists');
         } catch (err) {
             console.log(err);
-            return this.reject(500, err.message);
+            return api.reject(500, err.message);
         }
     }
 
@@ -93,10 +96,10 @@ class ApiPersistUsers extends Api {
         try {
             await this.save(update);
             this.cache.users = update;
-            return this.resolve(205, user);
+            return api.resolve(205, user);
         } catch (err) {
             console.log(err);
-            return this.reject(500, err.message);
+            return api.reject(500, err.message);
         }
     }
 }

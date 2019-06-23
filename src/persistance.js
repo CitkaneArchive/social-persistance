@@ -4,12 +4,14 @@ const path = require('path');
 // eslint-disable-next-line no-underscore-dangle
 global.__rootDir = path.join(__dirname, '../');
 const Sockets = require('./templates/Sockets');
+const BaseApi = require('./templates/BaseApi');
 const ApiUsers = require('./api/ApiPersistUsers');
 const ApiActivities = require('./api/ApiPersistActivities');
 
 const sockets = new Sockets('persistance');
-const user = new ApiUsers(sockets);
-const activity = new ApiActivities(sockets);
+const { api } = new BaseApi(sockets);
+const user = new ApiUsers(sockets, api);
+const activity = new ApiActivities(sockets, api);
 
 const apiInterface = {
     /**

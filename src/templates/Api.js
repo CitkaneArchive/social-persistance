@@ -3,7 +3,6 @@
 const fs = require('fs-extra');
 const path = require('path');
 const config = require('config');
-const BaseApi = require('./BaseApi');
 
 const cache = {};
 
@@ -11,9 +10,8 @@ function save(location, payload) {
     return fs.writeJson(location, payload, { spaces: 4 });
 }
 
-class Api extends BaseApi {
+class Api {
     constructor(sockets, type = false, initialPayload = {}) {
-        super(sockets);
         if (type) {
             let storePath = path.join(__rootDir, 'store');
             storePath = path.join(storePath, config.get('storage').baseDir);
