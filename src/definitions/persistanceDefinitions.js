@@ -34,3 +34,13 @@ module.exports = {
         uid
     })
 };
+
+/**
+ * @typedef module:persistance~users
+ * @property {user} uid - an object of {@link user}s indexed by their uid.
+ */
+
+/**
+ * @typedef module:persistance~activities
+ * @property {activity} uid - an object of {@link activity}s indexed by their uid.
+ */
